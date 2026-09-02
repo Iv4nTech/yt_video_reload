@@ -1,0 +1,47 @@
+name: Actualizar título y miniatura
+
+on:
+  schedule:
+    - cron: "0 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Reconstruir credenciales desde los secrets
+        run: |
+          mkdir -p credenciales
+          printf '%s' "${{ secrets.GOOGLE_CLIENT_SECRET_JSON }}" > credenciales/client_secret.json
+          printf '%s' "${{ secrets.YOUTUBE_TOKEN_CIFRADO }}" > credenciales/token.json
+          printf 'YT_VIDEO_CLAVE_CIFRADO=%s\n' "${{ secrets.YT_VIDEO_CLAVE_CIFRADO }}" > secretos.env
+          chmod 600 credenciales/client_secret.json credenciales/token.json secretos.env
+
+      - name: Ejecutar el proyecto
+        run: python main.py
+
+      - name: Guardar el estado si ha cambiado
+        run: |
+          if ! git diff --quiet -- almacenamiento/estado.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add almacenamiento/estado.json
+            git commit -m "actualizar estado de estadísticas"
+            git push
+          else
+            echo "sin cambios en el estado, nada que subir"
+          fi
