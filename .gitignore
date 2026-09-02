@@ -1,0 +1,9 @@
+credenciales/client_secret.json
+credenciales/token.json
+secretos.env
+salida/
+recursos/miniaturas_base/
+.venv/
+.env/
+__pycache__/
+*.pyc
