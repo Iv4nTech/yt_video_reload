@@ -1,0 +1,16 @@
+{
+  "credenciales": {
+    "ruta_secreto_cliente": "credenciales/client_secret.json",
+    "ruta_token": "credenciales/token.json"
+  },
+  "ruta_estado": "almacenamiento/estado.json",
+  "ruta_fuente": "recursos/fuentes/DejaVuSans-Bold.ttf",
+  "videos": [
+    {
+      "id_video": "da6qFFNwPCk",
+      "tipo_estadistica": "dias",
+      "plantilla_titulo": "Este vídeo lleva subido {valor} días",
+      "texto_miniatura": "{valor} DÍAS"
+    }
+  ]
+}
