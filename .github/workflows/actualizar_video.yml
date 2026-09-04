@@ -2,7 +2,7 @@ name: Actualizar título y miniatura
 
 on:
   schedule:
-    - cron: "0 8 * * *"
+    - cron: "50 14 * * *"
   workflow_dispatch:
 
 permissions:
